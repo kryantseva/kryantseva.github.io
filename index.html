@@ -4,53 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Кисвянцева Арина Ивановна</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Список задач</h1>
-
-        <div class="new-task-container">
-            <h3 class="task-header">Новая задача</h3>
-            <div class="new-task">
-                <input type="text" placeholder="Название задачи...">
-                <button>+ Добавить</button>
-            </div>
         </div>
-
-        <div class="task-sections">
-            <div class="section backlog">
-                <h2>Бэклог</h2>
-                <div class="tasks">
-                    <div class="task backlog-task">Выучить JS</div>
-                    <div class="task backlog-task">Выучить React</div>
-                    <div class="task backlog-task">Сделать домашку</div>
-                </div>
-            </div>
-            <div class="section in-progress">
-                <h2>В процессе</h2>
-                <div class="tasks">
-                    <div class="task in-progress-task">Выпить смузи</div>
-                    <div class="task in-progress-task">Попить воды</div>
-                </div>
-            </div>
-            <div class="section done">
-                <h2>Готово</h2>
-                <div class="tasks">
-                    <div class="task done-task">Позвонить маме</div>
-                    <div class="task done-task">Погладить кота</div>
-                </div>
-            </div>
-            <div class="section trash">
-                <h2>Корзина</h2>
-                <div class="tasks">
-                    <div class="task trash-task">Сходить погулять</div>
-                    <div class="task trash-task">Прочитать Войну и Мир</div>
-                </div>
-                <button class="clear-btn">X Очистить</button>
-            </div>
-        </div>
-    </div>
+    <script type="module" src="./src/framework/render.js"></script>
+    <script type="module" src="./src/main.js"></script>
 </body>
 </html>
-

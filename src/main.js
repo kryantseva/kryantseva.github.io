@@ -1,35 +1,34 @@
 import HeaderComponent from './view/header-component.js';
-import FormAddTaskComponent from './view/form-add-task-component.js';
-import TaskBoardComponent from './view/taskboard-component.js';
-import TaskListComponent from './view/task-list-component.js';
+import AddTaskComponent from './view/add-task-component.js';
+import TaskBoardComponent from './view/task-board-component.js';
 import TaskComponent from './view/task-component.js';
 import { render, RenderPosition } from './framework/render.js';
 
-const bodyContainer = document.querySelector('.board-app');
-const formContainer = document.querySelector('.new-task-container'); 
-const mainContainer = document.querySelector('.board-app__main'); 
+const container = document.querySelector('.container');
 
-render(new HeaderComponent(), bodyContainer, RenderPosition.BEFOREBEGIN);
-render(new FormAddTaskComponent(), formContainer);
+render(new HeaderComponent(), container, RenderPosition.BEFOREBEGIN);
+render(new AddTaskComponent(), container, RenderPosition.BEFOREEND);
 
 const taskBoard = new TaskBoardComponent();
-render(taskBoard, mainContainer);
+render(taskBoard, container, RenderPosition.BEFOREEND);
 
-const taskLists = [
-  { title: 'Бэклог', tasks: ['Выучить JS', 'Выучить React', 'Сделать домашку'] },
-  { title: 'В процессе', tasks: ['Выпить смузи', 'Попить воды'] },
-  { title: 'Готово', tasks: ['Позвонить маме', 'Погладить кота'] },
-  { title: 'Корзина', tasks: ['Сходить погулять', 'Прочитать книгу'] },
-];
+const backlogTasks = container.querySelector('.backlog .tasks');
+const inProgressTasks = container.querySelector('.in-progress .tasks');
+const doneTasks = container.querySelector('.done .tasks');
+const trashTasks = container.querySelector('.trash .tasks');
 
-const taskBoardInner = taskBoard.getElement().querySelector('.taskboard__inner');
+for (let i = 0; i < 4; i++) {
+    render(new TaskComponent(`Задача ${i + 1} Бэклог`, 'backlog-task'), backlogTasks, RenderPosition.BEFOREEND);
+}
 
-taskLists.forEach(({ title, tasks }) => {
-  const taskList = new TaskListComponent(title);
-  render(taskList, taskBoardInner);
+for (let i = 0; i < 4; i++) {
+    render(new TaskComponent(`Задача ${i + 1} В процессе`, 'in-progress-task'), inProgressTasks, RenderPosition.BEFOREEND);
+}
 
-  const taskContainer = taskList.getElement().querySelector('.tasks');
-  tasks.forEach(taskText => {
-    render(new TaskComponent(taskText), taskContainer);
-  });
-});
+for (let i = 0; i < 4; i++) {
+    render(new TaskComponent(`Задача ${i + 1} Готово`, 'done-task'), doneTasks, RenderPosition.BEFOREEND);
+}
+
+for (let i = 0; i < 4; i++) {
+    render(new TaskComponent(`Задача ${i + 1} Корзина`, 'trash-task'), trashTasks, RenderPosition.BEFOREEND);
+}

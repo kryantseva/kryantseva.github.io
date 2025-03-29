@@ -1,12 +1,12 @@
 import { createElement } from '../framework/render.js';
 
-function createTaskBoardComponentTemplate() {
-    return `<div class="task-sections"></div>`;
+function createClearTrashButtonComponentTemplate() {
+    return `<button class="clear-btn">X Очистить</button>`;
 }
 
-export default class TaskBoardComponent {
+export default class ClearTrashButtonComponent {
     getTemplate() {
-        return createTaskBoardComponentTemplate();
+        return createClearTrashButtonComponentTemplate();
     }
 
     getElement() {

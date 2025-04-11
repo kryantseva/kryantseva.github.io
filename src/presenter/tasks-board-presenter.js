@@ -11,15 +11,22 @@ export default class TasksBoardPresenter {
   #tasksModel = null;
   #tasksBoardComponent = new TaskBoardComponent();
   #boardTasks = [];
+  #tasksListComponents = {}; 
 
   constructor({ tasksBoardContainer, tasksModel }) {
     this.#tasksBoardContainer = tasksBoardContainer;
     this.#tasksModel = tasksModel;
+
+    this.#tasksModel.addObserver(this.#handleModelChange.bind(this));
   }
 
   init() {
     this.#boardTasks = [...this.#tasksModel.tasks];
     this.#renderBoard();
+  }
+
+  createTask(title) {
+    this.#tasksModel.addTask(title);
   }
 
   #renderEmptyTaskList(container) {
@@ -28,9 +35,14 @@ export default class TasksBoardPresenter {
 
   #renderClearButton(tasksListComponent) {
     if (this.#boardTasks.some((task) => task.status === Status.TRASH)) {
-      const clearButtonComponent = new ClearTrashButtonComponent();
+      const clearButtonComponent = new ClearTrashButtonComponent({
+        onClick: this.#handleClearTrashButtonClick.bind(this)
+      });
       render(clearButtonComponent, tasksListComponent.element);
       tasksListComponent.setClearButton(clearButtonComponent);
+    } else if (tasksListComponent.clearButton) {
+      tasksListComponent.clearButton.removeElement();
+      tasksListComponent.clearButton = null;
     }
   }
 
@@ -42,7 +54,7 @@ export default class TasksBoardPresenter {
 
     if (tasksForStatus.length > 0) {
       tasksForStatus.forEach((task) => this.#renderTask(task, tasksContainer));
-    } else { 
+    } else {
       this.#renderEmptyTaskList(tasksContainer);
     }
 
@@ -50,12 +62,19 @@ export default class TasksBoardPresenter {
       this.#renderClearButton(tasksListComponent);
     }
 
+    this.#tasksListComponents[status] = tasksListComponent; 
+
     return tasksListComponent;
   }
 
   #renderTask(task, container) {
-    const taskComponent = new TaskComponent({ task }); // Передаем объект
+    const taskComponent = new TaskComponent({ task });
     render(taskComponent, container);
+  }
+
+  #clearBoard() {
+    this.#tasksBoardComponent.element.innerHTML = '';
+    this.#tasksListComponents = {};
   }
 
   #renderBoard() {
@@ -65,5 +84,16 @@ export default class TasksBoardPresenter {
     Object.values(Status).forEach((status) => {
       this.#renderTasksList(status, taskSections);
     });
+  }
+
+  #handleModelChange() {
+    this.#clearBoard();
+    this.#boardTasks = [...this.#tasksModel.tasks];
+    this.#renderBoard();
+  }
+
+  #handleClearTrashButtonClick() {
+    const updatedTasks = this.#tasksModel.tasks.filter(task => task.status !== Status.TRASH);
+    this.#tasksModel.updateTasks(updatedTasks);
   }
 }

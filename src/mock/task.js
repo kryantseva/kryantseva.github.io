@@ -1,19 +1,19 @@
 export const tasks = [
-    {
-        id: "1",
-        title: "Сходить в магаз",
-        status: "backlog",
-    },
-    {
-        id: "2",
-        title: "Пойти погулять",
-        status: "backlog",
-    },
-    {
-        id: "3",
-        title: "Устроиться на работу",
-        status: "backlog",
-    },
+    // {
+    //     id: "1",
+    //     title: "Сходить в магаз",
+    //     status: "backlog",
+    // },
+    // {
+    //     id: "2",
+    //     title: "Пойти погулять",
+    //     status: "backlog",
+    // },
+    // {
+    //     id: "3",
+    //     title: "Устроиться на работу",
+    //     status: "backlog",
+    // },
     {
         id: "4",
         title: "Выучить JS",
@@ -34,14 +34,14 @@ export const tasks = [
         title: "Погладить кота",
         status: "done",
     },
-    {
-        id: "8",
-        title: "Сходить погулять",
-        status: "trash",
-    },
-    {
-        id: "9",
-        title: "Прочитать Войну и Мир",
-        status: "trash",
-    },
+    // {
+    //     id: "8",
+    //     title: "Сходить погулять",
+    //     status: "trash",
+    // },
+    // {
+    //     id: "9",
+    //     title: "Прочитать Войну и Мир",
+    //     status: "trash",
+    // }
 ];

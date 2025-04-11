@@ -1,37 +1,38 @@
-import { createElement } from '../framework/render.js';
-import { StatusLabel, Status } from "../const.js";
-import ClearTrashButtonComponent from "./clear-trash-button-component.js";
-import { render } from "../framework/render.js";
+import { AbstractComponent } from '../framework/view/abstract-component.js';
+import { StatusLabel } from "../const.js";
 
-function createTaskListComponentTemplate(status) {
-    const clearButton = status === Status.TRASH ? new ClearTrashButtonComponent().getTemplate() : '';
-
-    return `<div class="section ${status}">
-                <h2>${StatusLabel[status]}</h2>
-                <div class="tasks">
-                </div>
-                ${clearButton}
-            </div>`;
+function createTaskListComponentTemplate(status, label) {
+  return `<div class="section ${status}">
+            <h2>${label}</h2>
+            <div class="tasks">
+            </div>
+          </div>`;
 }
 
-export default class TasksListComponent {
-    constructor(status) {
-        this.status = status;
-    }
+export default class TasksListComponent extends AbstractComponent {
+  #status = null;
+  #label = null;
+  #clearButtonComponent = null;
 
-    getTemplate() {
-        return createTaskListComponentTemplate(this.status);
-    }
+  constructor({ status, label }) { 
+    super();
+    this.#status = status;
+    this.#label = label;
+  }
 
-    getElement() {
-        if (!this.element) {
-            this.element = createElement(this.getTemplate());
-        }
+  get template() {
+    return createTaskListComponentTemplate(this.#status, this.#label);
+  }
 
-        return this.element;
+  setClearButton(clearButtonComponent) {
+    this.#clearButtonComponent = clearButtonComponent;
+    const tasksContainer = this.element.querySelector('.tasks');
+    if (tasksContainer && this.#clearButtonComponent) {
+      this.element.append(this.#clearButtonComponent.element);
     }
+  }
 
-    removeElement() {
-        this.element = null;
-    }
+  getTasksContainer() {
+    return this.element.querySelector('.tasks');
+  }
 }

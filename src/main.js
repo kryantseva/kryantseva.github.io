@@ -14,7 +14,7 @@ render(new AddTaskComponent(), addTaskContainer);
 const tasksModel = new TasksModel();
 
 const tasksBoardPresenter = new TasksBoardPresenter({
-    tasksBoardContainer: taskboardContainer, 
+    tasksBoardContainer: taskboardContainer,
     tasksModel,
 });
 

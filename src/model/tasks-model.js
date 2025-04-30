@@ -29,6 +29,27 @@ export default class TasksModel {
     this._notifyObservers();
   }
 
+  updateTaskStatus(taskId, newStatus, beforeId = null) {
+    const taskIndex = this.#boardtasks.findIndex(task => task.id === taskId);
+
+    if (taskIndex !== -1) {
+      const taskToMove = this.#boardtasks.splice(taskIndex, 1)[0];
+      taskToMove.status = newStatus;
+
+      if (beforeId) {
+        const beforeIndex = this.#boardtasks.findIndex(task => task.id === beforeId);
+        if (beforeIndex !== -1) {
+          this.#boardtasks.splice(beforeIndex, 0, taskToMove);
+        } else {
+          this.#boardtasks.push(taskToMove);
+        }
+      } else {
+        this.#boardtasks.push(taskToMove);
+      }
+      this._notifyObservers();
+    }
+  }
+
   addObserver(observer) {
     this.#observers.push(observer);
   }

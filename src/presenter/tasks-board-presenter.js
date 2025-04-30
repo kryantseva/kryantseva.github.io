@@ -11,12 +11,11 @@ export default class TasksBoardPresenter {
   #tasksModel = null;
   #tasksBoardComponent = new TaskBoardComponent();
   #boardTasks = [];
-  #tasksListComponents = {}; 
+  #tasksListComponents = {};
 
   constructor({ tasksBoardContainer, tasksModel }) {
     this.#tasksBoardContainer = tasksBoardContainer;
     this.#tasksModel = tasksModel;
-
     this.#tasksModel.addObserver(this.#handleModelChange.bind(this));
   }
 
@@ -48,27 +47,25 @@ export default class TasksBoardPresenter {
 
   #renderTasksList(status, container) {
     const tasksForStatus = this.#boardTasks.filter((task) => task.status === status);
-    const tasksListComponent = new TasksListComponent({ status: status, label: StatusLabel[status] });
+    const tasksListComponent = new TasksListComponent({
+      status: status,
+      label: StatusLabel[status],
+      onTaskDrop: this.#handleTaskDrop.bind(this),
+    });
     render(tasksListComponent, container);
-    const tasksContainer = tasksListComponent.getTasksContainer();
-
-    if (tasksForStatus.length > 0) {
-      tasksForStatus.forEach((task) => this.#renderTask(task, tasksContainer));
-    } else {
-      this.#renderEmptyTaskList(tasksContainer);
-    }
+    tasksListComponent._renderTasks(tasksForStatus);
+    this.#tasksListComponents[status] = tasksListComponent;
 
     if (status === Status.TRASH) {
-      this.#renderClearButton(tasksListComponent);
+      this.#renderClearButton(tasksListComponent); // Вот эта строка была пропущена
     }
-
-    this.#tasksListComponents[status] = tasksListComponent; 
 
     return tasksListComponent;
   }
 
   #renderTask(task, container) {
     const taskComponent = new TaskComponent({ task });
+    taskComponent.element.dataset.taskId = task.id;
     render(taskComponent, container);
   }
 
@@ -95,5 +92,9 @@ export default class TasksBoardPresenter {
   #handleClearTrashButtonClick() {
     const updatedTasks = this.#tasksModel.tasks.filter(task => task.status !== Status.TRASH);
     this.#tasksModel.updateTasks(updatedTasks);
+  }
+
+  #handleTaskDrop(taskId, newStatus, beforeId) {
+    this.#tasksModel.updateTaskStatus(taskId, newStatus, beforeId);
   }
 }

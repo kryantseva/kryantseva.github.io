@@ -1,5 +1,8 @@
 import { AbstractComponent } from '../framework/view/abstract-component.js';
 import { StatusLabel } from "../const.js";
+import EmptyTasksListComponent from './empty-tasks-list-component.js';
+import TaskComponent from './task-component.js';
+import { render } from '../framework/render.js';
 
 function createTaskListComponentTemplate(status, label) {
   return `<div class="section ${status}">
@@ -13,11 +16,14 @@ export default class TasksListComponent extends AbstractComponent {
   #status = null;
   #label = null;
   #clearButtonComponent = null;
+  #onTaskDrop = null;
 
-  constructor({ status, label }) { 
+  constructor({ status, label, onTaskDrop }) {
     super();
     this.#status = status;
     this.#label = label;
+    this.#onTaskDrop = onTaskDrop;
+    this.#setDropHandler(onTaskDrop);
   }
 
   get template() {
@@ -34,5 +40,68 @@ export default class TasksListComponent extends AbstractComponent {
 
   getTasksContainer() {
     return this.element.querySelector('.tasks');
+  }
+
+  #setDropHandler(onTaskDrop) {
+    const container = this.element.querySelector('.tasks');
+
+    container.addEventListener('dragover', (event) => {
+      event.preventDefault();
+      const draggedElement = event.dataTransfer.getData('text/plain');
+      const targetElement = event.target.closest('.task');
+      const dropEndElement = event.target.closest('.drop-end');
+
+      container.querySelectorAll('.task').forEach(el => el.classList.remove('drag-over'));
+      container.querySelectorAll('.drop-end').forEach(el => el.classList.remove('drag-over-end'));
+
+      if (targetElement && draggedElement !== targetElement.dataset.taskId) {
+        targetElement.classList.add('drag-over');
+      } else if (dropEndElement) {
+        dropEndElement.classList.add('drag-over-end');
+      }
+    });
+
+    container.addEventListener('dragleave', () => {
+      container.querySelectorAll('.task').forEach(el => el.classList.remove('drag-over'));
+      container.querySelectorAll('.drop-end').forEach(el => el.classList.remove('drag-over-end'));
+    });
+
+    container.addEventListener('drop', (event) => {
+      event.preventDefault();
+      container.querySelectorAll('.task').forEach(el => el.classList.remove('drag-over'));
+      container.querySelectorAll('.drop-end').forEach(el => el.classList.remove('drag-over-end'));
+
+      const taskId = event.dataTransfer.getData('text/plain');
+      const targetElement = event.target.closest('.task');
+      const dropEndElement = event.target.closest('.drop-end');
+      let beforeTaskId = null;
+
+      if (targetElement && targetElement.dataset.taskId !== taskId) {
+        beforeTaskId = targetElement.dataset.taskId;
+      } else if (dropEndElement) {
+        beforeTaskId = null; // При drop на "drop-end" добавляем в конец
+      }
+
+      onTaskDrop(taskId, this.#status, beforeTaskId);
+    });
+  }
+
+  _renderTasks(tasks) {
+    const tasksContainer = this.getTasksContainer();
+    tasksContainer.innerHTML = '';
+
+    if (tasks.length > 0) {
+      tasks.forEach((task) => {
+        const taskComponent = new TaskComponent({ task });
+        taskComponent.element.dataset.taskId = task.id;
+        render(taskComponent, tasksContainer);
+      });
+    } else {
+      render(new EmptyTasksListComponent(), tasksContainer);
+    }
+
+    const dropEndElement = document.createElement('div');
+    dropEndElement.classList.add('drop-end');
+    tasksContainer.appendChild(dropEndElement);
   }
 }

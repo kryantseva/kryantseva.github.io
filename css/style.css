@@ -1,154 +1,168 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #eef4ff;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #bbdefb;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    position: relative;
-  }
-  
-  .title {
-    background: #1967d2;
-    color: white;
-    font-size: 28px;
-    padding: 15px;
-    border-radius: 5px;
-    text-align: left;
-  }
-  
-  .new-task-container {
-    width: 35%;
-    margin-left: 0;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .task-header {
-    color: black;
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  
-  .new-task {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .new-task input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .new-task button {
-    background-color: #1967d2;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    white-space: nowrap;
-    min-width: 120px;
-  }
-  
-  
-  .task-sections {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    align-items: start;
-  }
-  
-  .section {
-    padding: 15px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  h2 {
-    font-size: 16px;
-    text-align: left;
-    padding: 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    margin: 0 0 10px 0;
-    display: inline-block;
-    width: fit-content;
-    white-space: nowrap;
-  }
-  
-  .backlog h2 { background: #bdbdbd; color: black; }
-  .in-progress h2 { background: #64b5f6; color: white; }
-  .done h2 { background: #81c784; color: black; }
-  .trash h2 { background: #e57373; color: white; }
-  
-  .tasks {
-    min-height: 100px;
-    padding: 0;
-    flex-grow: 1;
-  }
-  
-  .task {
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    background: #ffffff;
-    color: rgb(0, 0, 0);
-    display: flex;
-    align-items: center;
-    text-align: left;
-    position: relative;
-    width: 100%;
-  }
-  
-  .task::before {
-    content: "";
-    width: 8px;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-  }
+  font-family: 'Arial', sans-serif;
+  background-color: #eef4ff;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
 
-  .board__no-tasks {
-    background: rgba(189, 189, 189, 0.5); /* Серый полупрозрачный цвет */
-    color: #333; /* Темно-серый текст */
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    margin: 5px 0;
-  }
-  
-  .backlog-task::before { background: #bdbdbd; }
-  .in-progress-task::before { background: #64b5f6; }
-  .done-task::before { background: #81c784; }
-  .trash-task::before { background: #e57373; }
-  
-  .clear-btn {
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    align-self: flex-end;
-    margin-left: 8px;
-  }
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #bbdefb;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  position: relative;
+}
+
+.title {
+  background: #1967d2;
+  color: white;
+  font-size: 28px;
+  padding: 15px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.new-task-container {
+  width: 35%;
+  margin-left: 0;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.task-header {
+  color: black;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.new-task {
+  display: flex;
+  gap: 10px;
+}
+
+.new-task input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.new-task button {
+  background-color: #1967d2;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+
+.task-sections {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  align-items: start;
+}
+
+.section {
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+h2 {
+  font-size: 16px;
+  text-align: left;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  display: inline-block;
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.backlog h2 { background: #bdbdbd; color: black; }
+.in-progress h2 { background: #64b5f6; color: white; }
+.done h2 { background: #81c784; color: black; }
+.trash h2 { background: #e57373; color: white; }
+
+.tasks {
+  min-height: 100px;
+  padding: 0;
+  flex-grow: 1;
+}
+
+.task {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  display: flex;
+  align-items: center;
+  text-align: left;
+  position: relative;
+  width: 100%;
+}
+
+.task::before {
+  content: "";
+  width: 8px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.board__no-tasks {
+  background: rgba(189, 189, 189, 0.5);
+  color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 5px 0;
+}
+
+.backlog-task::before { background: #bdbdbd; }
+.in-progress-task::before { background: #64b5f6; }
+.done-task::before { background: #81c784; }
+.trash-task::before { background: #e57373; }
+
+.clear-btn {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  align-self: flex-end;
+  margin-left: 8px;
+}
+
+.task.drag-over {
+  border-top: 2px dashed #007bff;
+}
+
+.drop-end {
+  min-height: 20px;
+  margin-top: 5px;
+  border-radius: 5px;
+}
+
+.drop-over-end {
+  border-bottom: 2px dashed #007bff; 
+}

@@ -28,12 +28,13 @@ body {
 
 .new-task-container {
   width: 35%;
-  margin-left: 0;
+  margin-left: 15px; 
   background: white;
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
+
 
 .task-header {
   color: black;
@@ -63,7 +64,6 @@ body {
   white-space: nowrap;
   min-width: 120px;
 }
-
 
 .task-sections {
   display: grid;
@@ -103,7 +103,7 @@ h2 {
 }
 
 .task {
-  padding: 10px;
+  padding: 10px 20px;
   margin: 5px 0;
   border-radius: 5px;
   border: 1px solid #ddd;
@@ -113,7 +113,7 @@ h2 {
   align-items: center;
   text-align: left;
   position: relative;
-  width: 100%;
+  width: calc(100% - 40px); 
 }
 
 .task::before {

@@ -21,6 +21,9 @@ export class AbstractComponent {
   }
 
   removeElement() {
-    this.#element = null;
+    if (this.#element && this.#element.parentNode) {
+      this.#element.parentNode.removeChild(this.#element);
+      this.#element = null;
+    }
   }
 }

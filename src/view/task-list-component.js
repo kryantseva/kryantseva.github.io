@@ -72,17 +72,26 @@ export default class TasksListComponent extends AbstractComponent {
       container.querySelectorAll('.drop-end').forEach(el => el.classList.remove('drag-over-end'));
 
       const taskId = event.dataTransfer.getData('text/plain');
+      const draggedElement = container.querySelector(`[data-task-id="${taskId}"]`);
       const targetElement = event.target.closest('.task');
       const dropEndElement = event.target.closest('.drop-end');
-      let beforeTaskId = null;
+      let beforeElement = null;
 
       if (targetElement && targetElement.dataset.taskId !== taskId) {
-        beforeTaskId = targetElement.dataset.taskId;
+        beforeElement = targetElement;
       } else if (dropEndElement) {
-        beforeTaskId = null; // При drop на "drop-end" добавляем в конец
+        beforeElement = null;
       }
 
-      onTaskDrop(taskId, this.#status, beforeTaskId);
+      if (draggedElement) {
+        if (beforeElement) {
+          container.insertBefore(draggedElement, beforeElement);
+        } else if (dropEndElement) {
+          container.appendChild(draggedElement);
+        }
+      }
+
+      onTaskDrop(taskId, this.#status, beforeElement ? beforeElement.dataset.taskId : null); // Отправляем beforeId
     });
   }
 

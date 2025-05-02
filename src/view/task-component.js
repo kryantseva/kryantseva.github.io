@@ -15,15 +15,11 @@ export default class TaskComponent extends AbstractComponent {
   constructor({ task }) {
     super();
     this.#task = task;
-    this.#afterCreateElement();
+    this.#makeTaskDraggable(); 
   }
 
   get template() {
     return createTaskComponentTemplate(this.#task);
-  }
-
-  #afterCreateElement() {
-    this.#makeTaskDraggable();
   }
 
   #makeTaskDraggable() {
